@@ -11,7 +11,8 @@ def PCA(input_matrix):
 	return input_matrix
 
 
-
+# input: d-dimensional matrix, k 
+# output: k-dimensional matrix (k << d)
 def RandomProjection(X, k):
 	# create a matrix with random normal (Gaussian) distributed elements
 	d = len(X)
