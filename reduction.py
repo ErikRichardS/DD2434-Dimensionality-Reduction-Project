@@ -36,7 +36,7 @@ def RandomProjection(X, k=2):
 	# normalize all column vectors in R to unit vectors
 	R_normalized = R/np.linalg.norm(R, ord=2, axis=0, keepdims=True)
 	
-	RP = np.matmul(R_normalized, X)
+	RP = R_normalized @ X
 	return RP
 
 
