@@ -2,6 +2,7 @@ import torch
 
 import numpy as np
 
+import random
 
 
 def center_matrix(matrix):
@@ -41,9 +42,22 @@ def RandomProjection(X, k=2):
 
 
 
-def StochasticRandomProjection(input_matrix, k=2):
+def SparseRandomProjection(matrix, k=2):
+	d, _ = matrix.shape
+	srp = np.zeros((k, d))
 
-	return input_matrix
+	# 1	  with 1/6 propability
+	# 0	  with 4/6 propability
+	# -1  with 1/6 propability
+	rand_val = [1, 0, 0, 0, 0, -1]
+
+	for i in range(k):
+		for j in range(d):
+			srp[i,j] = random.choice(rand_val)
+
+	srp_matrix = srp @ matrix
+
+	return srp_matrix
 
 
 
