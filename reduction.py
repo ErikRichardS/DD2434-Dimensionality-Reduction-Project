@@ -12,7 +12,7 @@ def PCA(input_matrix):
 
 
 
-def RandomProjection(input_matrix):
+def RandomProjection(X, k):
 	# create a matrix with random normal (Gaussian) distributed elements
 	d = len(X)
 	mean, standard_deviation = 0, 1 
