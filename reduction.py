@@ -4,11 +4,26 @@ import numpy as np
 
 
 
+def center_matrix(matrix):
+	n = matrix.shape[1]
+
+	matrix -= ( matrix @ np.ones((n,n)) ) / n
+
+	return matrix
+
+def svd(matrix):
+	return np.linalg.svd(matrix)
 
 # Principal Component Analysis
-def PCA(input_matrix, k=2):
+def PCA(X, k=2):
+	mat = center_matrix(X)
 
-	return input_matrix
+	u, s, vh = svd(mat)
+	uk = np.transpose(u[:,:k] )
+
+	pca_matrix = uk @ mat
+
+	return pca_matrix
 
 
 # input: d-dimensional matrix, k 
