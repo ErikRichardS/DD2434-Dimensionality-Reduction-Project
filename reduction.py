@@ -10,7 +10,7 @@ epsilon = 0.01
 # k = K_srp(epsilon, n) ?
 
 def K_rp(epsilon, n):
-  k = 4*np.log(n)/(epsilon^2/2 + epsilon^3/3)
+  k = 4*np.log(n)/(epsilon**2/2 + epsilon**3/3)
   return k
 
 def center_matrix(matrix):
