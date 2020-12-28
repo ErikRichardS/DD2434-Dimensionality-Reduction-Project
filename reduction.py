@@ -4,6 +4,8 @@ import random
 
 # parameter that controls the quality of distance preservation
 epsilon = 0.01
+# total number of elements in input matrix
+# n = matrix.size
 
 # k-value
 # k = K_rp(epsilon, n) ?
