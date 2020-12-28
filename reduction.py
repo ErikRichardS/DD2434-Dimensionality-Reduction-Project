@@ -4,8 +4,10 @@ import random
 
 # parameter that controls the quality of distance preservation
 epsilon = 0.01
-# total number of elements in input matrix
-# n = matrix.size
+# number of dimensions in input matrix
+# d = len(matrix)
+# number of samples in input matrix
+# n = len(matrix[0])
 
 # k-value
 # k = K_rp(epsilon, n) ?
