@@ -42,8 +42,9 @@ def PCA(matrix, k=2):
 
 	u, s, vh = svd(mat)
 	uk = np.transpose(u[:,:k] )
-
 	pca_matrix = uk @ mat
+
+	#TODO: Calculate and return explaination percentage as second variable
 
 	return pca_matrix
 
