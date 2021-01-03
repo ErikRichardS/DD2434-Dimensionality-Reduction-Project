@@ -18,12 +18,12 @@ epsilon = 0.5
 # n = matrix.shape[1]
 
 def k_rp(epsilon, n):
-  k = 4*np.log(n)/(epsilon**2/2 - epsilon**3/3)
-  return k
+	k = 4*np.log(n)/(epsilon**2/2 - epsilon**3/3)
+	return k
 
 def k_srp(epsilon, n, beta):
-  k = (4 + 2*beta)*np.log(n)/(epsilon**2/2 - epsilon**3/3)
-  return k
+	k = (4 + 2*beta)*np.log(n)/(epsilon**2/2 - epsilon**3/3)
+	return k
 
 def center_matrix(matrix):
 	n = matrix.shape[1]
@@ -59,13 +59,13 @@ def RandomProjection(matrix, k=2):
 	d, n = matrix.shape
 	for i in range(0,n):
 		# create a matrix with random normal (Gaussian) distributed elements
-	    	mean, standard_deviation = 0, 1 
-    		r = np.random.normal(mean, standard_deviation, (k, d))
-    		# normalize all column vectors in r to unit vectors
-    		r_unitnorm = r/np.linalg.norm(r, ord=2, axis=0, keepdims=True)
+		mean, standard_deviation = 0, 1 
+		r = np.random.normal(mean, standard_deviation, (k, d))
+		# normalize all column vectors in r to unit vectors
+		r_unitnorm = r/np.linalg.norm(r, ord=2, axis=0, keepdims=True)
 
-    		# compute the lower-dimensional random projection matrix
-    		rp_matrix = r_unitnorm @ matrix
+		# compute the lower-dimensional random projection matrix
+		rp_matrix = r_unitnorm @ matrix
 
 		# check if it satisfies the desired JL property
 		result = check_property(matrix, rp_matrix, n, d, k)
@@ -74,20 +74,20 @@ def RandomProjection(matrix, k=2):
 			return rp_matrix
 
 def check_property(matrix, rp_matrix, n, d, k):
-  	for i in range(0,n):
-    		for j in range(0,n):
-      			xi = matrix[:,i]
-      			xj = matrix[:,j]
-      			dist_x = np.linalg.norm(xi-xj)
+	for i in range(0,n):
+		for j in range(0,n):
+			xi = matrix[:,i]
+			xj = matrix[:,j]
+			dist_x = np.linalg.norm(xi-xj)
 			
-      			f_xi = rp_matrix[:,i]
-      			f_xj = rp_matrix[:,j]
-      			dist_fx = np.linalg.norm(f_xi-f_xj)
+			f_xi = rp_matrix[:,i]
+			f_xj = rp_matrix[:,j]
+			dist_fx = np.linalg.norm(f_xi-f_xj)
 			#dist_fx = np.sqrt(d/k)*np.linalg.norm(f_xi-f_xj)
 
-      			if (abs(dist_x-dist_fx)/dist_x > epsilon):
-        			return False
-  	return True
+			if (abs(dist_x-dist_fx)/dist_x > epsilon):
+				return False
+	return True
 
 
 # Sparse Random Projection
