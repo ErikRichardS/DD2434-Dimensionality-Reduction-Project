@@ -44,7 +44,13 @@ def PCA(matrix, k=2):
 	uk = np.transpose(u[:,:k] )
 	pca_matrix = uk @ mat
 
-	#TODO: Calculate and return explaination percentage as second variable
+	part = 0
+	total = 0
+	for i in range(len(s)):
+		s2 = s[i]*s[i]
+		total += s2
+		if i < k:
+			part += s2
 
 	return pca_matrix
 
