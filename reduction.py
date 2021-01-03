@@ -52,7 +52,7 @@ def PCA(matrix, k=2):
 		if i < k:
 			part += s2
 
-	return pca_matrix
+	return pca_matrix, (part / total)
 
 # Random Projection
 def RandomProjection(matrix, k=2):
