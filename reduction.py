@@ -3,7 +3,7 @@ import numpy as np
 import random
 
 # parameter that controls the quality of distance preservation
-epsilon = 0.5
+#epsilon = 0.5
 
 # beta-value
 # beta = 0.1
@@ -56,39 +56,45 @@ def PCA(matrix, k=2):
 
 # Random Projection
 def RandomProjection(matrix, k=2):
-	d, n = matrix.shape
-	for i in range(0,n):
+	d, N = matrix.shape
+	min_error = 1
+	best_rp_matrix = None
+	
+	for i in range(0,N):
 		# create a matrix with random normal (Gaussian) distributed elements
 		mean, standard_deviation = 0, 1 
 		r = np.random.normal(mean, standard_deviation, (k, d))
 		# normalize all column vectors in r to unit vectors
 		r_unitnorm = r/np.linalg.norm(r, ord=2, axis=0, keepdims=True)
-
+		
 		# compute the lower-dimensional random projection matrix
 		rp_matrix = r_unitnorm @ matrix
+		
+		# check quality of distance preservation
+		error = check_quality(matrix, rp_matrix, N, d, k)
+		if error < min_error:
+			min_error = error
+			best_rp_matrix = rp_matrix
+	
+	return best_rp_matrix, min_error
 
-		# check if it satisfies the desired JL property
-		result = check_property(matrix, rp_matrix, n, d, k)
-		# if so, return random projection matrix
-		if result == True:
-			return rp_matrix
-
-def check_property(matrix, rp_matrix, n, d, k):
-	for i in range(0,n):
-		for j in range(0,n):
+def check_quality(matrix, rp_matrix, N, d, k):
+	max_error = 0
+	for i in range(0,N):
+		for j in range(0,N):
 			xi = matrix[:,i]
 			xj = matrix[:,j]
-			dist_x = np.linalg.norm(xi-xj)
+			dist_x = np.linalg.norm(xi-xj) # This works because the Euclidean distance is the l2 norm, and the default value of the ord parameter in numpy.linalg.norm is 2.
 			
 			f_xi = rp_matrix[:,i]
 			f_xj = rp_matrix[:,j]
 			dist_fx = np.linalg.norm(f_xi-f_xj)
 			#dist_fx = np.sqrt(d/k)*np.linalg.norm(f_xi-f_xj)
-
-			if (abs(dist_x-dist_fx)/dist_x > epsilon):
-				return False
-	return True
-
+			
+			error = abs(1-dist_fx**2/dist_x**2)
+			if error > max_error:
+				max_error = error
+	return max_error
 
 # Sparse Random Projection
 def SparseRandomProjection(matrix, k=2):
