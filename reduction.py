@@ -17,18 +17,18 @@ import random
 # number of samples in input matrix
 # n = matrix.shape[1]
 
-def k_rp(epsilon, n):
-	k = 4*np.log(n)/(epsilon**2/2 - epsilon**3/3)
+def k_rp(epsilon, N):
+	k = 4*np.log(N)/(epsilon**2/2 - epsilon**3/3)
 	return k
 
-def k_srp(epsilon, n, beta):
-	k = (4 + 2*beta)*np.log(n)/(epsilon**2/2 - epsilon**3/3)
+def k_srp(epsilon, N, beta):
+	k = (4 + 2*beta)*np.log(N)/(epsilon**2/2 - epsilon**3/3)
 	return k
 
 def center_matrix(matrix):
-	n = matrix.shape[1]
+	N = matrix.shape[1]
 
-	matrix -= ( matrix @ np.ones((n,n)) ) / n
+	matrix -= ( matrix @ np.ones((N,N)) ) / N
 
 	return matrix
 
