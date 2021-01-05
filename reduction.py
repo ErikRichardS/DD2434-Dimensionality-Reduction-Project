@@ -51,7 +51,7 @@ def PCA(matrix, k=2):
 
 # Random Projection
 def RandomProjection(matrix, k, d, N):
-        # create a matrix with random normal (Gaussian) distributed elements
+    # create a matrix with random normal (Gaussian) distributed elements
     mean, standard_deviation = 0, 1
     r = np.random.normal(mean, standard_deviation, (k, d))
     # normalize all column vectors in r to unit vectors
@@ -79,7 +79,7 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
             else:
                 dist_fx = np.linalg.norm(f_xi-f_xj)
 
-                # TO ADD: Handle if dist_x=0
+            # TO ADD: Handle if dist_x=0
             error = abs((dist_x**2-dist_fx**2)/dist_x**2)
             if error > max_error:
                 max_error = error
