@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 img_paths = glob.glob('/Users/filip/Desktop/Skola/Maskininlärning2/Project_data/picture_data/*.png')
 
 #Use directory for the folders containing the articles here
-file_paths = glob.glob('/Users/filip/Desktop/Skola/Maskininlärning2/Project_data/20_newsgroups.tar/20_newsgroups/*/*.txt')
+file_paths = glob.glob('Data/*.zip')
 #The text in the files are put into a list
 
 def main():
@@ -58,7 +58,5 @@ def readImageFiles():
 
     
 
-
-main()
 
 
