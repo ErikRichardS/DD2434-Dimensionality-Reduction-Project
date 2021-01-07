@@ -4,6 +4,8 @@ from math import cos
 from math import pi
 import random
 
+import scipy.sparse as sp
+
 from sklearn.decomposition import TruncatedSVD
 
 # number of dimensions in input matrix
@@ -37,7 +39,7 @@ def PCA(matrix, k=2):
 
     mat = svd.fit_transform(matrix)
 
-    return np.transpose(mat), np.sum(svd.explained_variance_ratio_)
+    return mat, np.sum(svd.explained_variance_ratio_)
 
 
 # Random Projection
@@ -58,10 +60,10 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
     max_error = 0
     # TO ADD: instead of going through all combinations of points, randomize 100 points
     for i in range(0, N):
-        for j in range(0, N):
+        for j in range(i, N):
             xi = ddim_matrix[:, i]
             xj = ddim_matrix[:, j]
-            dist_x = np.linalg.norm(xi-xj)
+            dist_x = sp.linalg.norm(xi-xj)
 
             f_xi = kdim_matrix[:, i]
             f_xj = kdim_matrix[:, j]
