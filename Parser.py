@@ -1,14 +1,14 @@
 import sklearn.feature_extraction
+import sklearn.preprocessing
 import glob
 import numpy as np
-#from cv2 import cv2
 import matplotlib.pyplot as plt
 
-#Use path for all the pictures to be analysed
-img_paths = glob.glob('/Users/filip/Desktop/Skola/Maskininlärning2/Project_data/picture_data/*.png')
+#Use local path for all the pictures to be analysed
+img_paths = glob.glob('/*.png')
 
-#Use directory for the folders containing the articles here
-file_paths = glob.glob('Data/*.zip')
+#Use local path for the folders containing the articles here
+file_paths = glob.glob('/*.txt')
 #The text in the files are put into a list
 
 def main():
@@ -27,19 +27,22 @@ def readTextFiles():
 
     #For exact number of features(Amount of unique tokens/columns), smaller matrix, memory heavy due to storing tokens
     count_vectorizer = sklearn.feature_extraction.text.CountVectorizer()     #Using exact number of features as unique tokens
-    tf_matrix = count_vectorizer.fit_transform(file_data)                  
+    tf_matrix = count_vectorizer.fit_transform(file_data)  
+    tf_matrix = sklearn.preprocessing.normalize(tf_matrix,axis=1)
+                   
     
     #For a larger number of features(columns), sparse matrix, memory effective, using hash-table
     #vectorizer = sklearn.feature_extraction.text.HashingVectorizer()           
     #tf_matrix = vectorizer.fit_transform(file_data)                        
 
     #TO-DO: Double check normalization, use it or not?
+    #ADDED: Vector normalization for each row(sums up to 1)
     
     return tf_matrix
 
 
 def readImageFiles():
-    nrOfPixels = 250
+    nrOfPixels = 2500
     image_vectors = []
     for images in img_paths:
         pixels = []
@@ -50,8 +53,10 @@ def readImageFiles():
         image_vectors.append(randomPixels)              #All vectors gathers in the list as arrays
 
     image_matrix = np.array(image_vectors)
-    #TO-DO: Gather total data set of images, cut them into smaller images of 50x50?
+    #TO-DO: Gather total data set of images
     return image_matrix
+
+
     
 
     
