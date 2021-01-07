@@ -35,11 +35,12 @@ def center_matrix(matrix):
 
 # Principal Component Analysis
 def PCA(matrix, k=2):
+    matrix = np.transpose(matrix)
     svd = TruncatedSVD(n_components=k, random_state=42)
 
     mat = svd.fit_transform(matrix)
 
-    return mat, np.sum(svd.explained_variance_ratio_)
+    return np.transpose(mat), np.sum(svd.explained_variance_ratio_)
 
 
 # Random Projection
