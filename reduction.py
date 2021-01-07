@@ -1,4 +1,7 @@
 import numpy as np
+from math import sqrt
+from math import cos
+from math import pi
 import random
 
 # number of dimensions in input matrix
@@ -134,7 +137,29 @@ def SparseRandomProjection(matrix, k=2):
     return srp_matrix
 
 
-# Discrete Cosine Transform
-def DCT(input_matrix, k=2):
 
-    return input_matrix
+def Generate_DCT_Matrix(X, Y):
+    
+    C = np.zeros((X, Y)) # Initialize discrete cosine transform matrix
+    
+    for rownum in range(X):
+        for colnum in range(Y):
+            if rownum == 0:
+                C[rownum][colnum] = sqrt(1/X)
+            else:
+                C[rownum][colnum] = sqrt(2/X)*cos((2*colnum+1)*pi*rownum/(2*X))
+    return C
+
+# Discrete Cosine Transform
+def DCT(input_data, k):
+    
+    # Generate matrices    
+    C = Generate_DCT_Matrix(len(input_data), len(input_data))
+    C_inv = Generate_DCT_Matrix(k, k)
+    
+    # Apply DCT matrix, cut data, apply inverse DCT
+    output_data = C@input_data
+    output_data = output_data[:k]
+    output_data = C_inv@output_data
+        
+    return output_data
