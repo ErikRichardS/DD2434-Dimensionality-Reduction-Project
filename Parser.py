@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 img_paths = glob.glob('/*.png')
 
 #Use local path for the folders containing the articles here
-file_paths = glob.glob('/*.txt')
+file_paths = glob.glob('Data/*/*.txt')
 #The text in the files are put into a list
 
 def main():

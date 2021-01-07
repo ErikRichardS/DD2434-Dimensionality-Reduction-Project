@@ -4,6 +4,8 @@ from math import cos
 from math import pi
 import random
 
+from sklearn.decomposition import TruncatedSVD
+
 # number of dimensions in input matrix
 # d = matrix.shape[0]
 # number of samples in input matrix
@@ -28,28 +30,14 @@ def center_matrix(matrix):
     return matrix
 
 
-# Singular Value Decomposition
-def svd(matrix):
-    return np.linalg.svd(matrix)
-
 
 # Principal Component Analysis
 def PCA(matrix, k=2):
-    mat = center_matrix(matrix)
+    svd = TruncatedSVD(n_components=k, random_state=42)
 
-    u, s, vh = svd(mat)
-    uk = np.transpose(u[:, :k])
-    pca_matrix = uk @ mat
+    mat = svd.fit_transform(matrix)
 
-    part = 0
-    total = 0
-    for i in range(len(s)):
-        s2 = s[i]*s[i]
-        total += s2
-        if i < k:
-            part += s2
-
-    return pca_matrix, (part / total)
+    return np.transpose(mat), np.sum(svd.explained_variance_ratio_)
 
 
 # Random Projection
