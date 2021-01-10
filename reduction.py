@@ -32,7 +32,6 @@ def center_matrix(matrix):
     return matrix
 
 
-
 # Principal Component Analysis
 def PCA(matrix, k=2):
     matrix = np.transpose(matrix)
@@ -58,27 +57,37 @@ def RandomProjection(matrix, k, d, N):
 
 
 def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
-    max_error = 0
-    # TO ADD: instead of going through all combinations of points, randomize 100 points
-    for i in range(0, N):
-        for j in range(i, N):
-            xi = ddim_matrix[:, i]
-            xj = ddim_matrix[:, j]
-            dist_x = sp.linalg.norm(xi-xj)
+    # calculate the error in the distance between members of a pair of data vectors, averaged over 100 pairs
+    average_error = 0
+    pairs = []
+    for _ in range(0, 100):
+        # pick random vector pair, but make sure it hasn't been used before
+        while True:
+            i, j = random.sample(list(range(0, N)), 2)
+            if [i, j] not in pairs:
+                pairs.append([i, j])
+                break
 
-            f_xi = kdim_matrix[:, i]
-            f_xj = kdim_matrix[:, j]
-            if scaling == True:
-                dist_fx = np.sqrt(d/k)*np.linalg.norm(f_xi-f_xj)
-            else:
-                dist_fx = np.linalg.norm(f_xi-f_xj)
+        # calculate the distance between the datapoints in the d-dim matrix
+        xi = ddim_matrix[:, i]
+        xj = ddim_matrix[:, j]
+        dist_x = sp.linalg.norm(xi-xj)
 
-            # TO ADD: Handle if dist_x=0
-            error = abs((dist_x**2-dist_fx**2)/dist_x**2)
-            if error > max_error:
-                max_error = error
+        # calculate the distance between the datapoints in the k-dim matrix
+        f_xi = kdim_matrix[:, i]
+        f_xj = kdim_matrix[:, j]
+        if scaling == True:
+            # in the case of RP, the distance here is scaled
+            dist_fx = np.sqrt(d/k)*np.linalg.norm(f_xi-f_xj)
+        else:
+            dist_fx = np.linalg.norm(f_xi-f_xj)
 
-    return max_error
+        # calculate the error
+        # TO ADD: Handle if dist_x=0. Might not be necessary since we only get a warning, not an error
+        error = abs((dist_x**2-dist_fx**2)/dist_x**2)
+        average_error += error/100
+
+    return average_error
 
 
 def generate_rp_matrix(matrix, k, rp=True):
@@ -87,11 +96,12 @@ def generate_rp_matrix(matrix, k, rp=True):
     if rp == True:
         iterations = N
     else:
+        # TO DO: Add the number of iterations that need to be done for SRP
         pass
 
     min_error = 1
     best_rp_matrix = None
-    for i in range(0, iterations):
+    for _ in range(0, iterations):
         if rp == True:
             # get random projection matrix
             rp_matrix = RandomProjection(matrix, k, d, N)
@@ -128,11 +138,10 @@ def SparseRandomProjection(matrix, k=2):
     return srp_matrix
 
 
-
 def Generate_DCT_Matrix(X, Y):
-    
-    C = np.zeros((X, Y)) # Initialize discrete cosine transform matrix
-    
+
+    C = np.zeros((X, Y))  # Initialize discrete cosine transform matrix
+
     for rownum in range(X):
         for colnum in range(Y):
             if rownum == 0:
@@ -142,15 +151,17 @@ def Generate_DCT_Matrix(X, Y):
     return C
 
 # Discrete Cosine Transform
+
+
 def DCT(input_data, k):
-    
-    # Generate matrices    
+
+    # Generate matrices
     C = Generate_DCT_Matrix(len(input_data), len(input_data))
     C_inv = Generate_DCT_Matrix(k, k)
-    
+
     # Apply DCT matrix, cut data, apply inverse DCT
     output_data = C@input_data
     output_data = output_data[:k]
     output_data = C_inv@output_data
-        
+
     return output_data
