@@ -5,16 +5,16 @@ from Parser import *
 
 
 def test_pca(matrix, dims):
-	results = np.zeros(dims)
+	results = np.zeros(len(dims))
 	d, N = matrix.shape
 
 
-	for k in range(2,dims+1):
+	for i, k in enumerate(dims):
 		pca_matrix, explain_percentage = PCA(matrix, k=k)
 		pca_matrix = pca_matrix
-		error = check_quality(matrix, pca_matrix, N, d, k)
+		error = check_quality(matrix, pca_matrix, N, d, k, scaling=False)
 
-		results[k-1] = error
+		results[i] = error
 
 
 	return results
@@ -36,7 +36,7 @@ matrix = readTextFiles()
 
 
 
-res = test_pca(matrix, 10)
+res = test_pca(matrix, [2, 4, 8, 16, 32, 64, 128])
 
 print(res)
 
