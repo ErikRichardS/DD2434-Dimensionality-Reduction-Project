@@ -12,7 +12,6 @@ def test_pca(matrix, dims):
 
 	d, N = matrix.shape
 
-
 	for i, k in enumerate(dims):
 		pca_matrix, explain_percentage = PCA(matrix, k=k)
 		pca_matrix = pca_matrix
@@ -20,10 +19,8 @@ def test_pca(matrix, dims):
 
 		results_prc[i] = explain_percentage
 		results_avr[i] = error
-		
 
-
-	return results_average, results_prc
+	return results_avr, results_prc
 
 
 def test_random_projection(matrix, dims):
@@ -44,5 +41,5 @@ indx = [2**i for i in range(1, 11)]
 
 res = test_pca(matrix, indx)
 
-print(res)
-
+print(res[0])
+print(res[1])
