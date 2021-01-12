@@ -12,7 +12,7 @@ def test_pca(matrix, dims):
 	for k in range(2,dims+1):
 		pca_matrix, explain_percentage = PCA(matrix, k=k)
 		pca_matrix = pca_matrix
-		error = check_quality(org_matrix, pca_matrix, N, d, k)
+		error = check_quality(matrix, pca_matrix, N, d, k)
 
 		results[k-1] = error
 
@@ -37,4 +37,6 @@ matrix = readTextFiles()
 
 
 res = test_pca(matrix, 10)
+
+print(res)
 
