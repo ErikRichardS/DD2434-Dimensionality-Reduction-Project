@@ -5,7 +5,11 @@ from Parser import *
 
 
 def test_pca(matrix, dims):
-	results = np.zeros(len(dims))
+	results_prc = np.zeros(len(dims))
+	results_max = np.zeros(len(dims))
+	results_avr = np.zeros(len(dims))
+	results_min = np.zeros(len(dims))
+
 	d, N = matrix.shape
 
 
@@ -14,10 +18,12 @@ def test_pca(matrix, dims):
 		pca_matrix = pca_matrix
 		error = check_quality(matrix, pca_matrix, N, d, k, scaling=False)
 
-		results[i] = error
+		results_prc[i] = explain_percentage
+		results_avr[i] = error
+		
 
 
-	return results
+	return results_average, results_prc
 
 
 def test_random_projection(matrix, dims):
@@ -34,9 +40,9 @@ def test_dct(matrix, dims):
 
 matrix = readTextFiles()
 
+indx = [2**i for i in range(1, 11)]
 
-
-res = test_pca(matrix, [2, 4, 8, 16, 32, 64, 128])
+res = test_pca(matrix, indx)
 
 print(res)
 
