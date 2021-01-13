@@ -69,10 +69,9 @@ def test_dct(matrix, dims):
 <<<<<<< HEAD
     # Reduce amount of dims for RAM reasons
     
-    matrix_1 = matrix[:][:((N/4)-1)]
-    print(N/4, np.floor(N*(1/4))-1)
-    sys.exit()
-    matrix_2 = matrix[:][:floor(N*(1/4))-1]
+    #matrix_1 = matrix[:][:((N/4)-1)]
+    #print(N/4, np.floor(N*(1/4))-1)
+    #matrix_2 = matrix[:][:floor(N*(1/4))-1]
     
     # Assume columns = data points, rows = dims in matrix. Flip for now.        
     
