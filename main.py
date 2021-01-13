@@ -52,7 +52,7 @@ def test_sparse_random_projection(matrix, dims):
 
     for i, k in enumerate(dims):
         rp_matrix = SparseRandomProjection(matrix, k=k)
-        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, scaling=True)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k)
         results_avr[i] = error_avr
         results_max[i] = error_max
         results_min[i] = error_min
@@ -84,7 +84,7 @@ def test_dct(matrix, dims):
     dct_output = np.array(dct_output)
     dct_output = dct_output.transpose()
     
-    error = check_quality(matrix, dct_output, N, d, k, scaling=False)
+    error = check_quality(matrix, dct_output, N, d, k)
     
     results_avr[0] = error
     
