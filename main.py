@@ -6,37 +6,41 @@ from Parser import *
 
 
 def test_pca(matrix, dims):
-	results_prc = np.zeros(len(dims))
-	results_max = np.zeros(len(dims))
-	results_avr = np.zeros(len(dims))
-	results_min = np.zeros(len(dims))
+    results_prc = np.zeros(len(dims))
+    results_max = np.zeros(len(dims))
+    results_avr = np.zeros(len(dims))
+    results_min = np.zeros(len(dims))
 
-	d, N = matrix.shape
+    d, N = matrix.shape
 
-	for i, k in enumerate(dims):
-		pca_matrix, explain_percentage = PCA(matrix, k=k)
-		pca_matrix = pca_matrix
-		error = check_quality(matrix, pca_matrix, N, d, k, scaling=False)
+    for i, k in enumerate(dims):
+        pca_matrix, explain_percentage = PCA(matrix, k=k)
+        pca_matrix = pca_matrix
+        error_avr, error_max, error_min = check_quality(matrix, pca_matrix, N, d, k, scaling=False)
 
-		results_prc[i] = explain_percentage
-		results_avr[i] = error
+        results_prc[i] = explain_percentage
+        results_avr[i] = error_avr
+        results_max[i] = error_max
+        results_min[i] = error_min
 
-	return results_avr, results_prc
+    return results_avr, results_max, results_min, results_prc
 
 
 def test_random_projection(matrix, dims):
-	results_max = np.zeros(len(dims))
-	results_avr = np.zeros(len(dims))
-	results_min = np.zeros(len(dims))
+    results_max = np.zeros(len(dims))
+    results_avr = np.zeros(len(dims))
+    results_min = np.zeros(len(dims))
 
-	d, N = matrix.shape
+    d, N = matrix.shape
 
-	for i, k in enumerate(dims):
-		rp_matrix = RandomProjection(matrix, k=k)
-		error = check_quality(matrix, rp_matrix, N, d, k, scaling=True)
-		results_avr[i] = error
+    for i, k in enumerate(dims):
+        rp_matrix = RandomProjection(matrix, k=k)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, scaling=False)
+        results_avr[i] = error_avr
+        results_max[i] = error_max
+        results_min[i] = error_min
 
-	return results_avr
+    return results_avr, results_max, results_min
 
 
 def test_sparse_random_projection(matrix, dims):
@@ -57,11 +61,13 @@ def test_dct(matrix, dims):
             dct_row = DCT(datapoint[0], k)  
             dct_output.append(dct_row)
         dct_output = dct_output.transpose() # Transpose back to parser format
-        error = check_quality(matrix, dct_output, N, d, k, scaling=False)
+        error_avr, error_max, error_min = check_quality(matrix, dct_output, N, d, k, scaling=False)
         
-        results_avr[i] = error
+        results_avr[i] = error_avr
+        results_max[i] = error_max
+        results_min[i] = error_min
     
-    return results_avr
+    return results_avr, results_max, results_min
 
 indx = [2**i for i in range(1, 11)]
 
@@ -69,9 +75,12 @@ matrix = readTextFiles()
 
 #res_dct = test_dct(matrix, indx)
 
-res_rp = test_random_projection(matrix, indx)
+#res_rp = test_random_projection(matrix, indx)
 
-# res = test_pca(matrix, indx)
+#print(res_rp)
 
-# print(res[0])
-# print(res[1])
+res_pca = test_pca(matrix, indx)
+
+print(res_pca[0])
+print(res_pca[1])
+print(res_pca[-1])

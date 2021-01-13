@@ -55,6 +55,8 @@ def RandomProjection(matrix, k):
 def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
     # calculate the error in the distance between members of a pair of data vectors, averaged over 100 pairs
     average_error = 0
+    max_error = 0
+    min_error = float('inf')
     pairs = []
     for _ in range(0, 100):
         # pick random vector pair, but make sure it hasn't been used before
@@ -81,9 +83,13 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
         # calculate the error
         # TO ADD: Handle if dist_x=0. Might not be necessary since we only get a warning, not an error
         error = abs((dist_x**2-dist_fx**2)/dist_x**2)
+        if max_error < error:
+            max_error = error
+        if min_error > error:
+            min_error = error
         average_error += error/100
 
-    return average_error
+    return average_error, max_error, min_error
 
 
 def generate_rp_matrix(matrix, k, rp=True):
