@@ -41,16 +41,18 @@ def PCA(matrix, k=2):
 # Random Projection
 def RandomProjection(matrix, k):
     d, N = matrix.shape
-    # create a matrix with random normal (Gaussian) distributed elements
+    # create a Gaussian distributed random matrix
     mean, standard_deviation = 0, 1
-    r = np.random.normal(mean, standard_deviation, (k, d))
+    R = np.random.normal(mean, standard_deviation, (k, d))
 
-    # OLD: normalize all column vectors in r to unit vectors
+    # OLD: 
+    # normalize all column vectors in R to unit vectors
     #r_unitnorm = r/np.linalg.norm(r, ord=2, axis=0, keepdims=True)
-    #rp_matrix = r_unitnorm @ matrix
 
-    # compute the lower-dimensional random projection matrix
-    rp_matrix = 1/np.sqrt(k)*r @ matrix
+    # multiply the original d-dimensional matrix with the random projetion matrix R
+    # the scalar accounts for the impact on pairwise distances of working in the lower dimensional space k
+    scalar = 1/np.sqrt(k)
+    rp_matrix = scalar * R @ matrix
 
     return rp_matrix
 
