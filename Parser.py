@@ -35,25 +35,22 @@ def readTextFiles():
     #vectorizer = sklearn.feature_extraction.text.HashingVectorizer()           
     #tf_matrix = vectorizer.fit_transform(file_data)                        
 
-    #TO-DO: Double check normalization, use it or not?
-    #ADDED: Vector normalization for each row(sums up to 1)
-    
     return tf_matrix.transpose()    #Columns as datapoints, rows as dimensions
 
 
 def readImageFiles():
     nrOfPixels = 2500
     image_vectors = []
-    for images in img_paths:
+    for images in img_paths: 
         pixels = []
         img = plt.imread(images)            #Read image from path
         img = np.mean(img, -1)              #Use grayscale instead of rgb
         img = img.ravel()                   #Flatten image to 1D vector for future distance calculations
-        randomPixels = np.random.choice(img,nrOfPixels) #Create a random 50x50 image from original
-        image_vectors.append(randomPixels)              #All vectors gathers in the list as arrays
+        for i in range(0,100):              #100*20 = 2000 data points
+            randomPixels = np.random.choice(img,nrOfPixels) #Create a random 50x50 image from original
+            image_vectors.append(randomPixels)              #All vectors gathers in the list as arrays
 
     image_matrix = np.array(image_vectors)
-    
     #TO-DO: Gather total data set of images
     return image_matrix.transpose()             #Columns as datapoints, rows as dimensions
 
