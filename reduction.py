@@ -58,6 +58,8 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
     max_error = 0
     min_error = float('inf')
     pairs = []
+
+    scalar = 1 / np.sqrt(k)
     for _ in range(0, 100):
         # pick random vector pair, but make sure it hasn't been used before
         while True:
@@ -76,7 +78,7 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
         f_xj = kdim_matrix[:, j]
         if scaling == True:
             # in the case of RP, the distance here is scaled
-            dist_fx = np.sqrt(d/k)*np.linalg.norm(f_xi-f_xj)
+            dist_fx = scalar*np.linalg.norm(f_xi-f_xj)
         else:
             dist_fx = np.linalg.norm(f_xi-f_xj)
 

@@ -35,7 +35,7 @@ def test_random_projection(matrix, dims):
 
     for i, k in enumerate(dims):
         rp_matrix = RandomProjection(matrix, k=k)
-        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, scaling=False)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, scaling=True)
         results_avr[i] = error_avr
         results_max[i] = error_max
         results_min[i] = error_min
@@ -75,12 +75,15 @@ matrix = readTextFiles()
 
 #res_dct = test_dct(matrix, indx)
 
-#res_rp = test_random_projection(matrix, indx)
+res_rp = test_random_projection(matrix, indx)
+print("Average")
+print(res_rp[0])
+print()
+print("Max")
+print(res_rp[1])
 
-#print(res_rp)
+#res_pca = test_pca(matrix, indx)
 
-res_pca = test_pca(matrix, indx)
-
-print(res_pca[0])
-print(res_pca[1])
-print(res_pca[-1])
+#print(res_pca[0])
+#print(res_pca[1])
+#print(res_pca[-1])
