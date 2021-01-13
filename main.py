@@ -44,7 +44,20 @@ def test_random_projection(matrix, dims):
 
 
 def test_sparse_random_projection(matrix, dims):
-	return 0
+	results_max = np.zeros(len(dims))
+    results_avr = np.zeros(len(dims))
+    results_min = np.zeros(len(dims))
+
+    d, N = matrix.shape
+
+    for i, k in enumerate(dims):
+        rp_matrix = SparseRandomProjection(matrix, k=k)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, scaling=True)
+        results_avr[i] = error_avr
+        results_max[i] = error_max
+        results_min[i] = error_min
+
+    return results_avr, results_max, results_min
 
 def test_dct(matrix, dims):
     results_max = np.zeros(len(dims))
