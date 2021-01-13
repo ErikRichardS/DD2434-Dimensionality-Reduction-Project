@@ -38,17 +38,28 @@ def test_dct(matrix, dims):
     
     d, N = matrix.shape # (209404, 19997) for article dataset
     
-    # Assume columns = data points, rows = dims in matrix
-    for i, k in enumerate(dims):
-        dct_output = np.empty((d, k))
-        for datapoint in matrix.transpose():
-            # TypeError: sparse matrix length is ambiguous; use getnnz() or shape[0]
-            dct_row = DCT(datapoint[0], k)  
-            dct_output.append(dct_row)
-        dct_output = dct_output.transpose() # Transpose back to parser format
-        error = check_quality(matrix, dct_output, N, d, k, scaling=False)
-        
-        results_avr[i] = error
+    # Reduce amount of dims for RAM reasons
+    
+    matrix_1 = matrix[:][:((N/4)-1)]
+    print(N/4, np.floor(N*(1/4))-1)
+    sys.exit()
+    matrix_2 = matrix[:][:floor(N*(1/4))-1]
+    
+    # Assume columns = data points, rows = dims in matrix. Flip for now.        
+    
+    matrix = matrix.transpose()
+    dct_output = []
+    
+    for item in matrix:
+        dct_output_row = DCT(item, item.shape[0], d, k=1000, TwoDimInput=True)
+        dct_output.append(dct_output_row)
+    
+    dct_output = np.array(dct_output)
+    dct_output = dct_output.transpose()
+    
+    error = check_quality(matrix, dct_output, N, d, k, scaling=False)
+    
+    results_avr[0] = error
     
     return results_avr
 
@@ -57,6 +68,7 @@ indx = [2**i for i in range(1, 11)]
 matrix = readTextFiles()
 
 res_dct = test_dct(matrix, indx)
+print(res_dct)
 
 # res = test_pca(matrix, indx)
 

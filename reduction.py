@@ -3,6 +3,7 @@ from math import sqrt
 from math import cos
 from math import pi
 import random
+import sys
 
 import scipy.sparse as sp
 
@@ -153,15 +154,25 @@ def Generate_DCT_Matrix(X, Y):
 # Discrete Cosine Transform
 
 
-def DCT(input_data, k):
-
+def DCT(input_data, N, d, k, TwoDimInput=False):
+    
     # Generate matrices
-    C = Generate_DCT_Matrix(len(input_data), len(input_data))
-    C_inv = Generate_DCT_Matrix(k, k)
+    if TwoDimInput:
+        C = Generate_DCT_Matrix(d, N)
+        C_inv = Generate_DCT_Matrix(k, N)
+    else:
+        C = Generate_DCT_Matrix(d, d)
+        C_inv = Generate_DCT_Matrix(k, k)
 
-    # Apply DCT matrix, cut data, apply inverse DCT
-    output_data = C@input_data
-    output_data = output_data[:k]
-    output_data = C_inv@output_data
+    if TwoDimInput:
+        print(C.shape, input_data.shape)
+        output_data = C@input_data@C.transpose() # Dims: Nd*dN*dN = dN
+        output_data = output_data[:k][:] # Dims: dN --> kN
+        output_data = C_inv@output_data@C_inv.transpose() # Nk*kN*kN = kN       
+    else:
+        # Apply DCT matrix, cut data, apply inverse DCT
+        output_data = C@input_data # dd*dN = dN
+        output_data = output_data[:k] # dN --> kN
+        output_data = C_inv@output_data # kk*kN = kN
 
     return output_data
