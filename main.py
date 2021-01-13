@@ -44,7 +44,7 @@ def test_random_projection(matrix, dims):
 
 
 def test_sparse_random_projection(matrix, dims):
-	results_max = np.zeros(len(dims))
+    results_max = np.zeros(len(dims))
     results_avr = np.zeros(len(dims))
     results_min = np.zeros(len(dims))
 
@@ -109,7 +109,9 @@ def test_dct(matrix, dims):
 
 indx = [2**i for i in range(1, 11)]
 
+
 matrix = readTextFiles()
+#matrix = readImageFiles()
 
 <<<<<<< HEAD
 res_dct = test_dct(matrix, indx)
