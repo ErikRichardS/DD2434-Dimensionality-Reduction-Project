@@ -8,11 +8,6 @@ import scipy.sparse as sp
 
 from sklearn.decomposition import TruncatedSVD
 
-# number of dimensions in input matrix
-# d = matrix.shape[0]
-# number of samples in input matrix
-# N = matrix.shape[1]
-
 
 def k_rp(epsilon, N):
     k = 4*np.log(N)/(epsilon**2/2 - epsilon**3/3)
@@ -43,7 +38,8 @@ def PCA(matrix, k=2):
 
 
 # Random Projection
-def RandomProjection(matrix, k, d, N):
+def RandomProjection(matrix, k):
+    d, N = matrix.shape
     # create a matrix with random normal (Gaussian) distributed elements
     mean, standard_deviation = 0, 1
     r = np.random.normal(mean, standard_deviation, (k, d))
@@ -104,7 +100,7 @@ def generate_rp_matrix(matrix, k, rp=True):
     for _ in range(0, iterations):
         if rp == True:
             # get random projection matrix
-            rp_matrix = RandomProjection(matrix, k, d, N)
+            rp_matrix = RandomProjection(matrix, k)
         else:
             # get sparse random projection matrix
             rp_matrix = SparseRandomProjection(matrix, k)

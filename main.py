@@ -25,7 +25,18 @@ def test_pca(matrix, dims):
 
 
 def test_random_projection(matrix, dims):
-	return 0
+	results_max = np.zeros(len(dims))
+	results_avr = np.zeros(len(dims))
+	results_min = np.zeros(len(dims))
+
+	d, N = matrix.shape
+
+	for i, k in enumerate(dims):
+		rp_matrix = RandomProjection(matrix, k=k)
+		error = check_quality(matrix, rp_matrix, N, d, k, scaling=True)
+		results_avr[i] = error
+
+	return results_avr
 
 
 def test_sparse_random_projection(matrix, dims):
@@ -56,7 +67,9 @@ indx = [2**i for i in range(1, 11)]
 
 matrix = readTextFiles()
 
-res_dct = test_dct(matrix, indx)
+#res_dct = test_dct(matrix, indx)
+
+res_rp = test_random_projection(matrix, indx)
 
 # res = test_pca(matrix, indx)
 
