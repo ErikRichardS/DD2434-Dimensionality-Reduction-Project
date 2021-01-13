@@ -16,7 +16,7 @@ def test_pca(matrix, dims):
     for i, k in enumerate(dims):
         pca_matrix, explain_percentage = PCA(matrix, k=k)
         pca_matrix = pca_matrix
-        error_avr, error_max, error_min = check_quality(matrix, pca_matrix, N, d, k, scaling=False)
+        error_avr, error_max, error_min = check_quality(matrix, pca_matrix, N, d, k)
 
         results_prc[i] = explain_percentage
         results_avr[i] = error_avr
@@ -35,7 +35,7 @@ def test_random_projection(matrix, dims):
 
     for i, k in enumerate(dims):
         rp_matrix = RandomProjection(matrix, k=k)
-        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, scaling=True)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k)
         results_avr[i] = error_avr
         results_max[i] = error_max
         results_min[i] = error_min
@@ -44,7 +44,7 @@ def test_random_projection(matrix, dims):
 
 
 def test_sparse_random_projection(matrix, dims):
-	results_max = np.zeros(len(dims))
+    results_max = np.zeros(len(dims))
     results_avr = np.zeros(len(dims))
     results_min = np.zeros(len(dims))
 
@@ -92,7 +92,9 @@ def test_dct(matrix, dims):
 
 indx = [2**i for i in range(1, 11)]
 
+
 matrix = readTextFiles()
+#matrix = readImageFiles()
 
 #res_dct = test_dct(matrix, indx)
 
