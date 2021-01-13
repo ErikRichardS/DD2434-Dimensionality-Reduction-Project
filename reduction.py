@@ -152,9 +152,8 @@ def Generate_DCT_Matrix(X, Y):
                 C[rownum][colnum] = sqrt(2/X)*cos((2*colnum+1)*pi*rownum/(2*X))
     return C
 
+
 # Discrete Cosine Transform
-
-
 def DCT(input_data, N, d, k, TwoDimInput=False):
     
     # Generate matrices

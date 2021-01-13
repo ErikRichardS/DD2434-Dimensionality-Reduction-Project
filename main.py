@@ -84,7 +84,7 @@ def test_dct(matrix, dims):
     dct_output = np.array(dct_output)
     dct_output = dct_output.transpose()
     
-    error = check_quality(matrix, dct_output, N, d, k)
+    error = check_quality(matrix, dct_output, N, d, k=1000)
     
     results_avr[0] = error
     
