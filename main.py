@@ -16,7 +16,7 @@ def test_pca(matrix, dims):
     for i, k in enumerate(dims):
         pca_matrix, explain_percentage = PCA(matrix, k=k)
         pca_matrix = pca_matrix
-        error_avr, error_max, error_min = check_quality(matrix, pca_matrix, N, d, k, scaling=False)
+        error_avr, error_max, error_min = check_quality(matrix, pca_matrix, N, d, k)
 
         results_prc[i] = explain_percentage
         results_avr[i] = error_avr
