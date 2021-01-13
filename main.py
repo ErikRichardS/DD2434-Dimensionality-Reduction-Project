@@ -35,7 +35,7 @@ def test_random_projection(matrix, dims):
 
     for i, k in enumerate(dims):
         rp_matrix = RandomProjection(matrix, k=k)
-        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, scaling=True)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k)
         results_avr[i] = error_avr
         results_max[i] = error_max
         results_min[i] = error_min

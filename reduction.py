@@ -44,23 +44,24 @@ def RandomProjection(matrix, k):
     # create a matrix with random normal (Gaussian) distributed elements
     mean, standard_deviation = 0, 1
     r = np.random.normal(mean, standard_deviation, (k, d))
-    # normalize all column vectors in r to unit vectors
-    r_unitnorm = r/np.linalg.norm(r, ord=2, axis=0, keepdims=True)
+
+    # OLD: normalize all column vectors in r to unit vectors
+    #r_unitnorm = r/np.linalg.norm(r, ord=2, axis=0, keepdims=True)
+    #rp_matrix = r_unitnorm @ matrix
 
     # compute the lower-dimensional random projection matrix
-    rp_matrix = r_unitnorm @ matrix
+    rp_matrix = 1/np.sqrt(k)*r @ matrix
 
     return rp_matrix
 
 
-def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
+def check_quality(ddim_matrix, kdim_matrix, N, d, k):
     # calculate the error in the distance between members of a pair of data vectors, averaged over 100 pairs
     average_error = 0
     max_error = 0
     min_error = float('inf')
     pairs = []
-
-    scalar = 1 / np.sqrt(k)
+    
     for _ in range(0, 100):
         # pick random vector pair, but make sure it hasn't been used before
         while True:
@@ -77,11 +78,7 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
         # calculate the distance between the datapoints in the k-dim matrix
         f_xi = kdim_matrix[:, i]
         f_xj = kdim_matrix[:, j]
-        if scaling == True:
-            # in the case of RP, the distance here is scaled
-            dist_fx = scalar*np.linalg.norm(f_xi-f_xj)
-        else:
-            dist_fx = np.linalg.norm(f_xi-f_xj)
+        dist_fx = np.linalg.norm(f_xi-f_xj)
 
         # calculate the error
         # TO ADD: Handle if dist_x=0. Might not be necessary since we only get a warning, not an error
@@ -115,7 +112,7 @@ def generate_rp_matrix(matrix, k, rp=True):
             rp_matrix = SparseRandomProjection(matrix, k)
 
         # check quality of distance preservation
-        error = check_quality(matrix, rp_matrix, N, d, k, scaling=rp)
+        error = check_quality(matrix, rp_matrix, N, d, k)
         # save best rp_matrix and the associated error
         if error < min_error:
             min_error = error
