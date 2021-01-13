@@ -9,11 +9,6 @@ import scipy.sparse as sp
 
 from sklearn.decomposition import TruncatedSVD
 
-# number of dimensions in input matrix
-# d = matrix.shape[0]
-# number of samples in input matrix
-# N = matrix.shape[1]
-
 
 def k_rp(epsilon, N):
     k = 4*np.log(N)/(epsilon**2/2 - epsilon**3/3)
@@ -44,7 +39,8 @@ def PCA(matrix, k=2):
 
 
 # Random Projection
-def RandomProjection(matrix, k, d, N):
+def RandomProjection(matrix, k):
+    d, N = matrix.shape
     # create a matrix with random normal (Gaussian) distributed elements
     mean, standard_deviation = 0, 1
     r = np.random.normal(mean, standard_deviation, (k, d))
@@ -60,7 +56,11 @@ def RandomProjection(matrix, k, d, N):
 def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
     # calculate the error in the distance between members of a pair of data vectors, averaged over 100 pairs
     average_error = 0
+    max_error = 0
+    min_error = float('inf')
     pairs = []
+
+    scalar = 1 / np.sqrt(k)
     for _ in range(0, 100):
         # pick random vector pair, but make sure it hasn't been used before
         while True:
@@ -79,16 +79,20 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, scaling=True):
         f_xj = kdim_matrix[:, j]
         if scaling == True:
             # in the case of RP, the distance here is scaled
-            dist_fx = np.sqrt(d/k)*np.linalg.norm(f_xi-f_xj)
+            dist_fx = scalar*np.linalg.norm(f_xi-f_xj)
         else:
             dist_fx = np.linalg.norm(f_xi-f_xj)
 
         # calculate the error
         # TO ADD: Handle if dist_x=0. Might not be necessary since we only get a warning, not an error
         error = abs((dist_x**2-dist_fx**2)/dist_x**2)
+        if max_error < error:
+            max_error = error
+        if min_error > error:
+            min_error = error
         average_error += error/100
 
-    return average_error
+    return average_error, max_error, min_error
 
 
 def generate_rp_matrix(matrix, k, rp=True):
@@ -105,7 +109,7 @@ def generate_rp_matrix(matrix, k, rp=True):
     for _ in range(0, iterations):
         if rp == True:
             # get random projection matrix
-            rp_matrix = RandomProjection(matrix, k, d, N)
+            rp_matrix = RandomProjection(matrix, k)
         else:
             # get sparse random projection matrix
             rp_matrix = SparseRandomProjection(matrix, k)
