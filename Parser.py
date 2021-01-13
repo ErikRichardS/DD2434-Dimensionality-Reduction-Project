@@ -3,6 +3,7 @@ import sklearn.preprocessing
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import sparse
 
 #Use local path for all the pictures to be analysed
 img_paths = glob.glob('/*.png')
@@ -52,7 +53,7 @@ def readImageFiles():
 
     image_matrix = np.array(image_vectors)
     #TO-DO: Gather total data set of images
-    return image_matrix.transpose()             #Columns as datapoints, rows as dimensions
+    return sparse.csr_matrix(image_matrix.transpose())             #Columns as datapoints, rows as dimensions
 
 
     
