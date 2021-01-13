@@ -66,6 +66,30 @@ def test_dct(matrix, dims):
     
     d, N = matrix.shape # (209404, 19997) for article dataset
     
+<<<<<<< HEAD
+    # Reduce amount of dims for RAM reasons
+    
+    matrix_1 = matrix[:][:((N/4)-1)]
+    print(N/4, np.floor(N*(1/4))-1)
+    sys.exit()
+    matrix_2 = matrix[:][:floor(N*(1/4))-1]
+    
+    # Assume columns = data points, rows = dims in matrix. Flip for now.        
+    
+    matrix = matrix.transpose()
+    dct_output = []
+    
+    for item in matrix:
+        dct_output_row = DCT(item, item.shape[0], d, k=1000, TwoDimInput=True)
+        dct_output.append(dct_output_row)
+    
+    dct_output = np.array(dct_output)
+    dct_output = dct_output.transpose()
+    
+    error = check_quality(matrix, dct_output, N, d, k, scaling=False)
+    
+    results_avr[0] = error
+=======
     # Assume columns = data points, rows = dims in matrix
     for i, k in enumerate(dims):
         dct_output = np.empty((d, k))
@@ -79,6 +103,7 @@ def test_dct(matrix, dims):
         results_avr[i] = error_avr
         results_max[i] = error_max
         results_min[i] = error_min
+>>>>>>> refs/remotes/origin/main
     
     return results_avr, results_max, results_min
 
@@ -88,6 +113,10 @@ indx = [2**i for i in range(1, 11)]
 matrix = readTextFiles()
 #matrix = readImageFiles()
 
+<<<<<<< HEAD
+res_dct = test_dct(matrix, indx)
+print(res_dct)
+=======
 #res_dct = test_dct(matrix, indx)
 
 res_rp = test_random_projection(matrix, indx)
@@ -96,6 +125,7 @@ print(res_rp[0])
 print()
 print("Max")
 print(res_rp[1])
+>>>>>>> refs/remotes/origin/main
 
 #res_pca = test_pca(matrix, indx)
 
