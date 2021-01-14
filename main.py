@@ -65,7 +65,7 @@ def test_sparse_random_projection(matrix, dims):
         t1 = time()
         rp_matrix = SparseRandomProjection(matrix, k=k)
         t2 = time()
-        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, "srp")
         results_avr[i] = error_avr
         results_max[i] = error_max
         results_min[i] = error_min
