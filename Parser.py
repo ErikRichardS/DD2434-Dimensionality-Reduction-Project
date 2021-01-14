@@ -14,7 +14,7 @@ file_paths = glob.glob('Data/*/*.txt')
 #The text in the files are put into a list
 
 #Use local path for all the music files
-music_paths = glob.glob('Music/*.mp3')
+music_paths = glob.glob('/*.mp3')
 
 def main():
     
