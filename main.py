@@ -1,6 +1,5 @@
 import numpy as np
 import sys
-import time
 import matplotlib.pyplot as plt 
 
 from reduction import *
@@ -83,20 +82,13 @@ def test_dct(matrix, dims):
     d, N = matrix.shape # (209404, 19997) for article dataset, (2500, 1500) for img.
     # Assume columns = data points, rows = dims in matrix. 
     # Flip for now to extract datapoints as rows.
-    matrix = matrix.transpose()
-    
-    time1 = time.time()
     
     TwoDimInput=False
     
     matrix = matrix.transpose()
     dct_output = []
     
-    for item in matrix:
-        t1 = time()
-        dct_output_row = DCT(item, item.shape[0], d, k=1000, TwoDimInput=True)
-        t2 = time()
-        dct_output.append(dct_output_row)
+    for i, k in enumerate(dims):
     
         # Generate DCT matrices
         if TwoDimInput:
@@ -110,15 +102,14 @@ def test_dct(matrix, dims):
         
         # print(C.shape, C_inv.shape, matrix.shape)
         
+        t1 = time()
         for item in matrix:
             dct_output_row = DCT(item.transpose(), N, d, k, C, C_inv, TwoDimInput)
             dct_output.append(dct_output_row)
-        
+        t2 = time()
         print("Done!")
         
-        time2 = time.time()
-        
-        print("Current iteration time: ", time2-time1)
+        print("Current iteration time: ", t2-t1)
         
         # Convert list to numpy array, reshape and transpose back
         dct_output = np.array(dct_output)
@@ -132,10 +123,11 @@ def test_dct(matrix, dims):
         results_avr[i] = error_avr
         results_min[i] = error_min
         results_max[i] = error_max
+        results_tim[i] = t2-t1
     
-    time3 = time.time()
+    t3 = time()
     
-    print("Total time: ", time3-time1)
+    print("Total time: ", t3-t1)
     
     return results_avr, results_max, results_min, results_tim
 
@@ -151,28 +143,45 @@ def print_results(res):
 #indx = [2**i for i in range(1, 11)]
 indx = [i for i in range(1, 10)] + [i*10 for i in range(1,10)] + [i*100 for i in range(1,9)]
 
-matrix = readTextFiles()
+# matrix = readTextFiles()
+matrix = readImageFiles()
 
-res_pca = test_pca(matrix, indx)
+# PCA
+
+# res_pca = test_pca(matrix, indx)
+
+# print("Average")
+# print_results(res_pca[0])
+
+# print("Max")
+# print_results(res_pca[1])
+
+# print("Min")
+# print_results(res_pca[2])
+
+# print("Time")
+# print_results(res_pca[3])
+
+# print("Percentage")
+# print_results(res_pca[4])
+
+# DCT
+
+res_dct_avr, res_dct_max, res_dct_min, res_dct_tim = test_dct(matrix, indx)
 
 print("Average")
-print_results(res_pca[0])
+print_results(res_dct_avr)
 
 print("Max")
-print_results(res_pca[1])
+print_results(res_dct_max)
 
 print("Min")
-print_results(res_pca[2])
+print_results(res_dct_min)
 
 print("Time")
-print_results(res_pca[3])
+print_results(res_dct_tim)
 
-print("Percentage")
-print_results(res_pca[4])
-
-#matrix = readImageFiles()
-
-res_dct_avr, res_dct_max, res_dct_min = test_dct(matrix, indx)
+# RP
 
 """
 res_rp = test_random_projection(matrix, indx)
