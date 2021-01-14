@@ -123,6 +123,7 @@ def test_dct(matrix, dims):
         results_avr[i] = error_avr
         results_min[i] = error_min
         results_max[i] = error_max
+        results_tim[i] = t2-t1
     
     t3 = time()
     
@@ -144,8 +145,11 @@ indx = [i for i in range(1, 10)] + [i*10 for i in range(1,10)] + [i*100 for i in
 
 print("Choose data type:\ntext\nimage\nmusic\n>", end="")
 data_type = input()
+print("Choose projection function:\npca\nrp\nsrp\ndct\n>", end="")
+proj_func = input()
 
 matrix = None
+t1 = time()
 if data_type == "text":
     matrix = readTextFiles()
 elif data_type == "image":
@@ -155,10 +159,9 @@ elif data_type == "music":
 else:
     print("Invalid type")
     sys.exit()
+t2 = time()
 
-
-print("Choose projection function:\npca\nrp\nsrp\ndct\n>", end="")
-proj_func = input()
+print("Load data done. Time: %0.3f" % (t2-t1))
 
 function = None
 if proj_func == "pca":
@@ -179,7 +182,7 @@ res_min = 0
 res_tim = 0
 res_per = 0
 
-if data_type != "pca":
+if proj_func != "pca":
     res_avr, res_max, res_min, res_tim = function(matrix, indx)
 else:
     res_avr, res_max, res_min, res_tim, res_per = function(matrix, indx)

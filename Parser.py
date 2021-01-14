@@ -84,4 +84,4 @@ def readMusicFiles():
                     datapoint = soundsamples[i:i+d_per_datapoint]
                     music_vectors = np.column_stack((music_vectors, datapoint))
 
-        return music_vectors
+        return sparse.csr_matrix(music_vectors)
