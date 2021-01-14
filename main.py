@@ -142,60 +142,60 @@ def print_results(res):
 #indx = [2**i for i in range(1, 11)]
 indx = [i for i in range(1, 10)] + [i*10 for i in range(1,10)] + [i*100 for i in range(1,9)]
 
-# matrix = readTextFiles()
-# matrix = readImageFiles()
-matrix = readMusicFiles()
+print("Choose data type:\ntext\nimage\nmusic\n>", end="")
+data_type = input()
 
-print(matrix)
-print(matrix.shape)
+matrix = None
+if data_type == "text":
+    matrix = readTextFiles()
+elif data_type == "image":
+    matrix = readImageFiles()
+elif data_type == "music":
+    matrix = readMusicFiles()
+else:
+    print("Invalid type")
+    sys.exit()
 
-sys.exit()
 
-# PCA
+print("Choose projection function:\npca\nrp\nsrp\ndct\n>", end="")
+proj_func = input()
 
-# res_pca = test_pca(matrix, indx)
+function = None
+if proj_func == "pca":
+    function = test_pca
+elif proj_func == "rp":
+    function = test_random_projection
+elif proj_func == "srp":
+    function = test_sparse_random_projection
+elif proj_func == "dct":
+    function = test_dct
+else:
+    print("Invalid type")
+    sys.exit()
 
-# print("Average")
-# print_results(res_pca[0])
+res_avr = 0
+res_max = 0
+res_min = 0
+res_tim = 0
+res_per = 0
 
-# print("Max")
-# print_results(res_pca[1])
-
-# print("Min")
-# print_results(res_pca[2])
-
-# print("Time")
-# print_results(res_pca[3])
-
-# print("Percentage")
-# print_results(res_pca[4])
-
-# DCT
-
-res_dct_avr, res_dct_max, res_dct_min, res_dct_tim = test_dct(matrix, indx)
+if data_type != "pca":
+    res_avr, res_max, res_min, res_tim = function(matrix, indx)
+else:
+    res_avr, res_max, res_min, res_tim, res_per = function(matrix, indx)
 
 print("Average")
-print_results(res_dct_avr)
+print_results(res_avr)
 
 print("Max")
-print_results(res_dct_max)
+print_results(res_max)
 
 print("Min")
-print_results(res_dct_min)
+print_results(res_min)
 
 print("Time")
-print_results(res_dct_tim)
+print_results(res_tim)
 
-res_dct_avr, res_dct_max, res_dct_min = test_dct(matrix, indx)
-
-res_rp = test_random_projection(matrix, indx)
-print("Average")
-print(res_dct_avr)
-print()
-print("Max")
-print(res_rp[1])
-#
-
-#print(res_pca[0])
-#print(res_pca[1])
-#print(res_pca[-1])
+if data_type == "pca":
+    print("Percentage")
+    print_results(res_per)
