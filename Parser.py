@@ -4,13 +4,17 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import sparse
+import pydub
 
 #Use local path for all the pictures to be analysed
-img_paths = glob.glob('Images/*.png')
+img_paths = glob.glob('/*.png')
 
 #Use local path for the folders containing the articles here
 file_paths = glob.glob('Data/*/*.txt')
 #The text in the files are put into a list
+
+#Use local path for all the music files
+music_paths = glob.glob('Music/*.mp3')
 
 def main():
     
@@ -56,11 +60,28 @@ def readImageFiles():
     return sparse.csr_matrix(image_matrix.transpose())             #Columns as datapoints, rows as dimensions
 
 
-    
+def readMusicFiles():
+        # build matrix with music data
+        # each column vector consists of soundsamples from 1 second of music 
+        seconds = 1 # controls the number of dimensions
+        samplerate = 44100 
+        # the number of dimensions per datapoint
+        d_per_datapoint = seconds*samplerate
+        music_vectors = np.empty(shape=[d_per_datapoint, 0])
+        for path in music_paths:
+            # get audio segment
+            soundsamples_asAudioSegment = pydub.AudioSegment.from_file(path, format="mp3")
+            # make single channel
+            soundsamples_asAudioSegment = soundsamples_asAudioSegment.set_channels(1)
+            # get number of samples
+            num_samples = int(soundsamples_asAudioSegment.frame_count()) 
+            # extract raw audio from wav file and normalize samples to make in range [-1,1]
+            soundsamples = np.divide(soundsamples_asAudioSegment.get_array_of_samples(), 
+                          soundsamples_asAudioSegment.max_possible_amplitude)
+            # add vector of d-dimensions to music_vectors
+            for i in range(0,num_samples,d_per_datapoint):
+                if i+d_per_datapoint <= num_samples:
+                    datapoint = soundsamples[i:i+d_per_datapoint]
+                    music_vectors = np.column_stack((music_vectors, datapoint))
 
-    
-
-    
-
-
-
+        return music_vectors
