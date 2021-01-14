@@ -131,7 +131,7 @@ def SparseRandomProjection(matrix, k=2):
     
     srp = -1*(srp < 0.33) + (srp > 0.67)
 
-    scalar = 1.0 # np.sqrt(3)
+    scalar = 1/np.sqrt(k)
     srp = scalar * srp
 
     srp_matrix = srp @ matrix

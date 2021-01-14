@@ -180,7 +180,7 @@ res_min = 0
 res_tim = 0
 res_per = 0
 
-if data_type != "pca":
+if proj_func != "pca":
     res_avr, res_max, res_min, res_tim = function(matrix, indx)
 else:
     res_avr, res_max, res_min, res_tim, res_per = function(matrix, indx)
