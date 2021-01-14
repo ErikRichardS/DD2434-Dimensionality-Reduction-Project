@@ -145,8 +145,11 @@ indx = [i for i in range(1, 10)] + [i*10 for i in range(1,10)] + [i*100 for i in
 
 print("Choose data type:\ntext\nimage\nmusic\n>", end="")
 data_type = input()
+print("Choose projection function:\npca\nrp\nsrp\ndct\n>", end="")
+proj_func = input()
 
 matrix = None
+t1 = time()
 if data_type == "text":
     matrix = readTextFiles()
 elif data_type == "image":
@@ -156,10 +159,9 @@ elif data_type == "music":
 else:
     print("Invalid type")
     sys.exit()
+t2 = time()
 
-
-print("Choose projection function:\npca\nrp\nsrp\ndct\n>", end="")
-proj_func = input()
+print("Load data done. Time: %0.3f" % (t2-t1))
 
 function = None
 if proj_func == "pca":
