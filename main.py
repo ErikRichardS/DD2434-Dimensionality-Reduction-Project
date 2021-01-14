@@ -151,39 +151,24 @@ def print_results(res):
 #indx = [2**i for i in range(1, 11)]
 indx = [i for i in range(1, 10)] + [i*10 for i in range(1,10)] + [i*100 for i in range(1,9)]
 
-matrix = readTextFiles()
+#matrix = readTextFiles()
+#matrix = readImageFiles()
+matrix = readMusicFiles()
 
-res_pca = test_pca(matrix, indx)
+results = test_random_projection(matrix, indx)
 
 print("Average")
-print_results(res_pca[0])
+print_results(results[0])
 
 print("Max")
-print_results(res_pca[1])
+print_results(results[1])
 
 print("Min")
-print_results(res_pca[2])
+print_results(results[2])
 
 print("Time")
-print_results(res_pca[3])
+print_results(results[3])
 
-print("Percentage")
-print_results(res_pca[4])
+#print("Percentage")
+#print_results(results[4])
 
-#matrix = readImageFiles()
-
-res_dct_avr, res_dct_max, res_dct_min = test_dct(matrix, indx)
-
-"""
-res_rp = test_random_projection(matrix, indx)
-print("Average")
-print(res_dct_avr)
-print()
-print("Max")
-print(res_rp[1])
-"""
-#
-
-#print(res_pca[0])
-#print(res_pca[1])
-#print(res_pca[-1])
