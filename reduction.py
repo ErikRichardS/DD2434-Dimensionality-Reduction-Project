@@ -127,16 +127,12 @@ def generate_rp_matrix(matrix, k, rp=True):
 # Sparse Random Projection
 def SparseRandomProjection(matrix, k=2):
     d = matrix.shape[0]
-    srp = np.zeros((k, d))
+    srp = np.random.rand(k, d)
+    
+    srp = -1*(srp < 0.33) + (srp > 0.67)
 
-    # 1	with 1/6 propability
-    # 0	with 4/6 propability
-    # -1	with 1/6 propability
-    rand_val = [1, 0, 0, 0, 0, -1]
-
-    for i in range(k):
-        for j in range(d):
-            srp[i, j] = random.choice(rand_val)
+    scalar = 1.0 # np.sqrt(3)
+    srp = scalar * srp
 
     srp_matrix = srp @ matrix
 
