@@ -123,6 +123,7 @@ def test_dct(matrix, dims):
         results_avr[i] = error_avr
         results_min[i] = error_min
         results_max[i] = error_max
+        results_tim[i] = t2-t1
     
     t3 = time()
     

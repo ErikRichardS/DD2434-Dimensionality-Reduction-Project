@@ -4,6 +4,7 @@ from math import cos
 from math import pi
 import random
 import sys
+import scipy.fftpack as scipy 
 
 import scipy.sparse as sp
 
@@ -168,4 +169,13 @@ def DCT(input_data, N, d, k, C, C_inv, TwoDimInput=False):
             output_data = np.delete(output_data, output_data.argmin()) # dN --> kN
         output_data = C_inv@output_data # kk*kN = kN
 
+    return output_data
+
+def DCT_SCIPY(input_data, N, d, k, C, C_inv):
+    
+    output_data = scipy.dct(input_data)
+    for iteration in range(d-k):
+        output_data = np.delete(output_data, output_data.argmin()) # dN --> kN    
+    output_data = scipy.idct(output_data)
+    
     return output_data
