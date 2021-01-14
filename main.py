@@ -143,7 +143,13 @@ def print_results(res):
 indx = [i for i in range(1, 10)] + [i*10 for i in range(1,10)] + [i*100 for i in range(1,9)]
 
 # matrix = readTextFiles()
-matrix = readImageFiles()
+# matrix = readImageFiles()
+matrix = readMusicFiles()
+
+print(matrix)
+print(matrix.shape)
+
+sys.exit()
 
 # PCA
 
