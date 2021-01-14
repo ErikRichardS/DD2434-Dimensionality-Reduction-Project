@@ -155,25 +155,17 @@ def Generate_DCT_Matrix(X, Y):
 # Discrete Cosine Transform
 
 
-def DCT(input_data, N, d, k, TwoDimInput=False):
+def DCT(input_data, N, d, k, C, C_inv, TwoDimInput=False):
     
-    # Generate matrices
     if TwoDimInput:
-        C = Generate_DCT_Matrix(d, N)
-        C_inv = Generate_DCT_Matrix(k, N)
-    else:
-        C = Generate_DCT_Matrix(d, d)
-        C_inv = Generate_DCT_Matrix(k, k)
-
-    if TwoDimInput:
-        print(C.shape, input_data.shape)
-        output_data = C@input_data@C.transpose() # Dims: Nd*dN*dN = dN
-        output_data = output_data[:k][:] # Dims: dN --> kN
-        output_data = C_inv@output_data@C_inv.transpose() # Nk*kN*kN = kN       
+        output_data = C@input_data@C.transpose()
+        output_data = output_data[:k][:]
+        output_data = C_inv@output_data@C_inv.transpose()      
     else:
         # Apply DCT matrix, cut data, apply inverse DCT
         output_data = C@input_data # dd*dN = dN
-        output_data = output_data[:k] # dN --> kN
+        for iteration in range(d-k):
+            output_data = np.delete(output_data, output_data.argmin()) # dN --> kN
         output_data = C_inv@output_data # kk*kN = kN
 
     return output_data

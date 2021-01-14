@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from scipy import sparse
 
 #Use local path for all the pictures to be analysed
-img_paths = glob.glob('/*.png')
+img_paths = glob.glob('Images/*.png')
 
 #Use local path for the folders containing the articles here
 file_paths = glob.glob('Data/*/*.txt')
