@@ -21,7 +21,7 @@ def test_pca(matrix, dims):
         pca_matrix, explain_percentage = PCA(matrix, k=k)
         t2 = time()
         pca_matrix = pca_matrix
-        error_avr, error_max, error_min = check_quality(matrix, pca_matrix, N, d, k)
+        error_avr, error_max, error_min = check_quality(matrix, pca_matrix, N, d, k, "PCA")
 
         results_prc[i] = explain_percentage
         results_avr[i] = error_avr
@@ -44,7 +44,7 @@ def test_random_projection(matrix, dims):
         t1 = time()
         rp_matrix = RandomProjection(matrix, k=k)
         t2 = time()
-        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k)
+        error_avr, error_max, error_min = check_quality(matrix, rp_matrix, N, d, k, "rp")
         results_avr[i] = error_avr
         results_max[i] = error_max
         results_min[i] = error_min
@@ -118,7 +118,7 @@ def test_dct(matrix, dims):
         
         print("Shape check! Original: (", d, ",", N, "). ", "Current:", dct_output.shape)
         
-        error_avr, error_max, error_min = check_quality(matrix, dct_output, N, d, k)
+        error_avr, error_max, error_min = check_quality(matrix, dct_output, N, d, k, "dct")
         
         results_avr[i] = error_avr
         results_min[i] = error_min
