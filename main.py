@@ -123,7 +123,6 @@ def test_dct(matrix, dims):
         results_avr[i] = error_avr
         results_min[i] = error_min
         results_max[i] = error_max
-        results_tim[i] = t2-t1
     
     t3 = time()
     
@@ -181,16 +180,14 @@ print_results(res_dct_min)
 print("Time")
 print_results(res_dct_tim)
 
-# RP
+res_dct_avr, res_dct_max, res_dct_min = test_dct(matrix, indx)
 
-"""
 res_rp = test_random_projection(matrix, indx)
 print("Average")
 print(res_dct_avr)
 print()
 print("Max")
 print(res_rp[1])
-"""
 #
 
 #print(res_pca[0])
