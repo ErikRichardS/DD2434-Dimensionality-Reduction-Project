@@ -7,14 +7,14 @@ from scipy import sparse
 import pydub
 
 #Use local path for all the pictures to be analysed
-img_paths = glob.glob('/*.png')
+img_paths = glob.glob('Images/*.png')
 
 #Use local path for the folders containing the articles here
 file_paths = glob.glob('Data/*/*.txt')
 #The text in the files are put into a list
 
 #Use local path for all the music files
-music_paths = glob.glob('/*.mp3')
+music_paths = glob.glob('Music/*.mp3')
 
 def main():
     
