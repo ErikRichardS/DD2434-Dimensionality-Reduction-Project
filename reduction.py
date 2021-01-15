@@ -20,7 +20,7 @@ def k_srp(epsilon, N, beta):
     k = (4 + 2*beta)*np.log(N)/(epsilon**2/2 - epsilon**3/3)
     return k
 
-
+# Written by Erik
 def center_matrix(matrix):
     N = matrix.shape[1]
 
@@ -29,6 +29,7 @@ def center_matrix(matrix):
     return matrix
 
 
+# Written by Erik
 # Principal Component Analysis
 def PCA(matrix, k=2):
     matrix = np.transpose(matrix)
@@ -123,7 +124,7 @@ def generate_rp_matrix(matrix, k, rp=True):
 
     return best_rp_matrix, min_error
 
-
+# Written by Erik
 # Sparse Random Projection
 def SparseRandomProjection(matrix, k=2):
     d = matrix.shape[0]

@@ -7,6 +7,7 @@ from Parser import *
 
 from time import time
 
+# Written by Erik and was foundation for the other test functions
 def test_pca(matrix, dims):
     results_prc = np.zeros(len(dims))
     results_max = np.zeros(len(dims))
@@ -132,6 +133,7 @@ def test_dct(matrix, dims):
     return results_avr, results_max, results_min, results_tim
 
 
+# Written by Erik
 def print_results(res):
     for r in res:
         s = str(r).replace(".", ",")
@@ -139,8 +141,7 @@ def print_results(res):
 
 
 
-
-#indx = [2**i for i in range(1, 11)]
+# Everything below was written by Erik
 indx = [i for i in range(1, 10)] + [i*10 for i in range(1,10)] + [i*100 for i in range(1,9)]
 
 print("Choose data type:\ntext\nimage\nmusic\n>", end="")
@@ -162,6 +163,7 @@ else:
 t2 = time()
 
 print("Load data done. Time: %0.3f" % (t2-t1))
+
 
 function = None
 if proj_func == "pca":
