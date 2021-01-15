@@ -58,7 +58,7 @@ def RandomProjection(matrix, k):
     return rp_matrix
 
 
-def check_quality(ddim_matrix, kdim_matrix, N, d, k, func):
+def check_quality(ddim_matrix, kdim_matrix, N, d, k):
     # calculate the error in the distance between members of a pair of data vectors, averaged over 100 pairs
     average_error = 0
     max_error = 0
@@ -80,22 +80,22 @@ def check_quality(ddim_matrix, kdim_matrix, N, d, k, func):
         f_xi = kdim_matrix[:, i]
         f_xj = kdim_matrix[:, j]
 
-        if func == "srp":
-            xi = sp.vstack(xi.T.tolil().reshape((1,2500)))
-            xj = sp.vstack(xj.T.tolil().reshape((1,2500)))
+        #if func == "srp":
+            #xi = sp.vstack(xi.T.tolil().reshape((1,2500)))
+            #xj = sp.vstack(xj.T.tolil().reshape((1,2500)))
 
-            dist_x = xi.dot(xj.T)
-            dist_fx = np.dot(f_xi,f_xj)
-        else:
-            dist_x = sp.linalg.norm(xi-xj)
-            dist_fx = np.linalg.norm(f_xi-f_xj)
+            #dist_x = xi.dot(xj.T)
+            #dist_fx = np.dot(f_xi,f_xj)
+        #else:
+        dist_x = sp.linalg.norm(xi-xj)
+        dist_fx = np.linalg.norm(f_xi-f_xj)
 
         # calculate the error
         # TO ADD: Handle if dist_x=0. Might not be necessary since we only get a warning, not an error
-        if func == "srp":
-            error = abs((dist_x[0,0]**2-dist_fx**2)/dist_x[0,0]**2)
-        else:
-            error = abs((dist_x**2-dist_fx**2)/dist_x**2)
+        #if func == "srp":
+            #error = abs((dist_x[0,0]**2-dist_fx**2)/dist_x[0,0]**2)
+        #else:
+        error = abs((dist_x**2-dist_fx**2)/dist_x**2)
         if max_error < error:
             max_error = error
         if min_error > error:
