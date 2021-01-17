@@ -22,7 +22,7 @@ def main():
     image_matrix = readImageFiles()         #Output is a matrix where each row contains grayscale values of 50x50 pixels
     
 
-def readTextFiles():
+def readTextFiles(): #Written by Filip
     file_data = []
     #Open all the text files and extract the text into a list of files
     for files in file_paths:
@@ -43,7 +43,7 @@ def readTextFiles():
     return tf_matrix.transpose()    #Columns as datapoints, rows as dimensions
 
 
-def readImageFiles():
+def readImageFiles():                       #Written by Filip
     nrOfPixels = 2500
     image_vectors = []
     for images in img_paths: 
